@@ -1,5 +1,5 @@
 {
-  "name": "sample",
+  "name": "shortcut-310",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -14,10 +14,15 @@
     "react-cache": "^2.0.0-alpha.1",
     "react-dom": "^16.6.1",
     "react-scripts": "2.1.1",
+    "react-select": "^2.1.1",
     "redux": "^4.0.1",
     "styled-components": "^4.0.3"
   },
   "devDependencies": {
+    "@types/reach__router": "^1.2.2",
+    "@types/react": "^16.7.3",
+    "@types/react-dom": "^16.0.9",
+    "@types/styled-components": "^4.0.3",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.9.0",
     "eslint-plugin-react": "^7.11.1",

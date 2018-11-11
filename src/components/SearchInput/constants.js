@@ -1,0 +1,15 @@
+export const FLOORS = [
+  { label: 'B4F', value: 'b4f' },
+  { label: 'B3F', value: 'b3f' },
+  { label: 'B2F', value: 'b2f' },
+  { label: 'B1F', value: 'b1f' },
+  { label: '1F', value: '1f' },
+  { label: '2F', value: '2f' },
+  { label: '3F', value: '3f' },
+  { label: '4F', value: '4f' },
+  { label: '5F', value: '5f' },
+  { label: '6F', value: '6f' },
+  { label: '7F', value: '7f' },
+  { label: '8F', value: '8f' },
+  { label: '9F', value: '9f' },
+];

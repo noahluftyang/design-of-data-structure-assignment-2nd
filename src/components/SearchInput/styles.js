@@ -18,6 +18,30 @@ export const Title = styled.h5`
   color: #fff;
 `;
 
+export const inputStyles = {
+  container: provided => ({
+    ...provided,
+    flex: 1,
+  }),
+  control: provided => ({
+    ...provided,
+    backgroundColor: 'transparent',
+    border: 0,
+  }),
+  dropdownIndicator: provided => ({
+    ...provided,
+    padding: '0 8px',
+  }),
+  input: provided => ({
+    ...provided,
+    color: '#000',
+  }),
+  placeholder: provided => ({
+    ...provided,
+    color: '#80d1fd',
+  }),
+};
+
 export const Input = styled.input`
   background-color: transparent;
   border: 0;
