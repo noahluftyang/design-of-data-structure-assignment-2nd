@@ -7,6 +7,7 @@
 ## Meeting notes
 
 - [Constraints and cases](./meetings/1st-constraints-and-cases.md)
+- [Algorithms](./meetings/2ndweek_algorithm.md)
 
 ## Collaborators
 
