@@ -1,15 +1,16 @@
-import { Router } from '@reach/router';
 import React, { Component, Suspense, lazy } from 'react';
 
-const HomePage = lazy(() => import('./Home'));
+import { StyledRouter } from './styles';
+
+const HomePage = lazy(() => import('../Home'));
 
 export class App extends Component {
   render() {
     return (
       <Suspense fallback={null}>
-        <Router>
+        <StyledRouter>
           <HomePage path="/" />
-        </Router>
+        </StyledRouter>
       </Suspense>
     );
   }
