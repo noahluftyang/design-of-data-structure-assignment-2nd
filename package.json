@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@reach/router": "^1.2.1",
+    "cytoscape": "^3.2.20",
     "react": "^16.6.1",
     "react-cache": "^2.0.0-alpha.1",
     "react-dom": "^16.6.1",
