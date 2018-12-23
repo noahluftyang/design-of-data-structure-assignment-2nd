@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -94,7 +94,7 @@ namespace Elevatorsim
                 new Elevator() { currnetfloor = 2, maxPassengers = 20, minFloor = 1, passengerCount = 0 }
             };
 
-            using (FileStream fs = File.Create(writeFileName))
+            using (StreamWriter fs = new StreamWriter(File.Open(writeFileName, FileMode.Create), Encoding.ASCII))
             {
                 for (; cycle < maxCycle; cycle++) // 사이클 돌림
                 {
@@ -127,7 +127,7 @@ namespace Elevatorsim
                     foreach (var floor in floors)//매 층마다
                     {
                         floor.DoTick();
-                        if (rng.Next() % 600 == 0)//10분에 1명꼴로 랜덤탑승
+                        if (rng.Next() % 600 == 0)//각 층 10분에 1명꼴로 랜덤대기
                             floor.userWaiting += 1;
                         if (m < 50 && m > 40 && rng.Next() % 10 == 0)//수업끝
                         {
@@ -143,7 +143,7 @@ namespace Elevatorsim
                         {
                             if (7 > Array.IndexOf(floors, floor))
                             {
-                                float wd = evWeeklyData[Array.IndexOf(floors, floor), h, week, evcode];
+                                float wd = evWeeklyData[Array.IndexOf(floors, floor), h, week, evcode] + 10;
                                 int ff = wd == 0 ? 0 : (int)(rng.Next() % wd);
                                 floor.userWaiting += ff;
                             }
@@ -232,20 +232,19 @@ namespace Elevatorsim
                     foreach (var floor in floors)
                     {
                         sb.Append(floor.AllUser);
-                        sb.Append(", ");
+                        sb.Append(",");
                     }
                     foreach (var ev in elevators)
                     {
                         sb.Append(ev.currnetfloor);
-                        sb.Append(", ");
+                        sb.Append(",");
                     }
-                    sb.Remove(sb.Length - 2, 2);
+                    sb.Remove(sb.Length - 1, 1);
                     sb.Append("\n");
-                    string fileLine = sb.ToString();
-                    byte[] info = new UTF8Encoding(true).GetBytes(fileLine);
-                    fs.Write(info, 0, info.Length);
+
+                    fs.Write(sb.ToString());
                     //personcount.Add(floors[6].AllUser);
-                }
+        }
                 Console.WriteLine(Path.GetFullPath(writeFileName) + "   Write Complete!");
             }
 
