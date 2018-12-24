@@ -1,2 +1,2 @@
-export * from './Map';
+export * from './MapCarousel';
 export * from './Search';

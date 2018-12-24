@@ -9,26 +9,31 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@reach/router": "^1.2.1",
-    "cytoscape": "^3.2.20",
-    "react": "^16.6.1",
-    "react-cache": "^2.0.0-alpha.1",
-    "react-dom": "^16.6.1",
+    "@reach/router": "1.2.1",
+    "cytoscape": "3.2.20",
+    "nuka-carousel": "4.4.4",
+    "query-string": "6.2.0",
+    "react": "16.6.1",
+    "react-cache": "2.0.0-alpha.1",
+    "react-dom": "16.6.1",
     "react-scripts": "2.1.1",
-    "react-select": "^2.1.1",
-    "redux": "^4.0.1",
-    "styled-components": "^4.0.3"
+    "react-select": "2.1.1",
+    "react-slick": "0.23.2",
+    "redux": "4.0.1",
+    "slick-carousel": "1.8.1",
+    "styled-components": "4.0.3"
   },
   "devDependencies": {
-    "@types/reach__router": "^1.2.2",
-    "@types/react": "^16.7.3",
-    "@types/react-dom": "^16.0.9",
-    "@types/styled-components": "^4.0.3",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.9.0",
-    "eslint-plugin-react": "^7.11.1",
-    "prettier": "^1.15.2",
-    "typescript": "^3.1.6"
+    "@stillmine/eslint-config": "0.4.0",
+    "@types/reach__router": "1.2.2",
+    "@types/react": "16.7.3",
+    "@types/react-dom": "16.0.9",
+    "@types/styled-components": "4.0.3",
+    "babel-eslint": "10.0.1",
+    "eslint": "5.9.0",
+    "eslint-plugin-react": "7.11.1",
+    "prettier": "1.15.2",
+    "typescript": "3.1.6"
   },
   "browserslist": [
     ">0.2%",

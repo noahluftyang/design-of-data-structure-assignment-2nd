@@ -19,26 +19,30 @@ export const Title = styled.h5`
 `;
 
 export const inputStyles = {
-  container: provided => ({
+  container: (provided) => ({
     ...provided,
     flex: 1,
   }),
-  control: provided => ({
+  control: (provided) => ({
     ...provided,
     backgroundColor: 'transparent',
     border: 0,
   }),
-  dropdownIndicator: provided => ({
+  dropdownIndicator: (provided) => ({
     ...provided,
     padding: '0 8px',
   }),
-  input: provided => ({
+  input: (provided) => ({
     ...provided,
-    color: '#000',
+    color: '#fff',
   }),
-  placeholder: provided => ({
+  placeholder: (provided) => ({
     ...provided,
     color: '#80d1fd',
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: '#fff',
   }),
 };
 
