@@ -23,6 +23,7 @@ class MapComponent extends PureComponent {
 }
 
 export const Map = styled(MapComponent)`
-  background: ${(props) => `url(${require(`../images/${props.name}floor.svg`)}) no-repeat center`};
-  min-height: 520px;
+  background: ${(props) => `url(${require(`../images/${props.name}floor`)}) no-repeat center`};
+  background-size: contain;
+  min-height: 450px;
 `;
