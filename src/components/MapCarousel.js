@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { Map } from './Map';
 
-const FLOORS = ['6', '7'];
+const FLOORS = ['5', '6', '7'];
 
 class MapCarouselComponent extends PureComponent {
   render () {
