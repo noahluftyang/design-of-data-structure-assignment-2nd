@@ -1,0 +1,12 @@
+﻿,BElevator,dStair,seveneleven,canon,chinese restaurant,cauburger,exit1,exit2,school food,post office,hair&u
+BElevator,0,0,3,0,0,0,0,0,0,2,0
+dStair,0,0,0,0,0,3,0,6,0,0,0
+seveneleven,3,0,0,4,0,0,0,0,0,0,0
+canon,0,0,4,0,2,0,0,0,0,0,0
+chinese restaurant,0,0,0,2,0,2,0,0,0,0,0
+cauburger,0,3,0,0,2,0,6,0,0,0,0
+exit1,0,0,0,0,0,6,0,4,0,0,0
+exit2,0,6,0,0,0,0,4,0,2,0,0
+school food,0,0,0,0,0,0,0,2,0,0,0
+post office,2,0,0,0,0,0,0,0,0,0,2
+hair&u,0,0,0,0,0,0,0,0,0,2,0

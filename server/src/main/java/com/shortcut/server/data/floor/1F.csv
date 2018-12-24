@@ -1,0 +1,10 @@
+﻿0,AElevator,Belevator,Celevator,aStair,bStair,cStair,dStair,frontDoor,backDoor
+Aelevator,0,0,21,13,0,12,0,28,19
+Belevator,0,0,0,0,10,18,12,27,30
+Celevator,21,0,0,0,0,15,14,0,15
+aStair,13,0,0,0,0,0,0,0,18
+bStair,0,10,0,0,0,0,0,21,0
+cStair,12,18,15,0,0,0,16,32,21
+dStair,0,12,14,0,0,16,0,0,0
+frontDoor,28,27,0,0,21,32,0,0,0
+backDoor,19,30,15,18,0,21,0,0,0
