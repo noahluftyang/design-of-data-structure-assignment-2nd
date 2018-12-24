@@ -10,7 +10,7 @@ class MapCarouselComponent extends PureComponent {
   render () {
     return (
       <Carousel className={this.props.className}>
-        {FLOORS.map((floor) => <Map name={floor} />)}
+        {FLOORS.map((floor) => <Map key={`map-${floor}`} name={floor} />)}
       </Carousel>
     );
   }
