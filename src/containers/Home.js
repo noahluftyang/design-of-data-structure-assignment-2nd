@@ -1,9 +1,10 @@
+import { navigate } from '@reach/router';
 import React, { PureComponent } from 'react';
-import { stringify } from 'query-string';
+// Import { stringify } from 'query-string';
 
 import { MapCarousel, Search } from '../components';
 
-class Home extends PureComponent {
+export default class Home extends PureComponent {
   state = {
     startFloor: null,
     endFloor: null,
@@ -32,19 +33,38 @@ class Home extends PureComponent {
   }
 
   fetchShortcut = async () => {
+    const { startPlace, endPlace } = this.state;
     let json;
 
     try {
-      const response = await fetch(`/shortcut?${stringify(this.state)}`, {
-        method: 'GET',
-      });
-      json = await response.json();
+      /*
+       * Const response = await fetch(`/shortcut?${stringify(this.state)}`, {
+       *   method: 'GET',
+       * });
+       * json = await response.json();
+       */
+      json = {
+        data: {
+          move: 'BElevator',
+          time: '12분',
+          path: ['727', 'BElevator', 'seveneleven', 'canon', 'vietnam', 'cauburgur', 'exit1'],
+        },
+        message: 'success',
+      };
     } catch (err) {
-      console.error(err);
-      // Throw new Error(err);
+      throw new Error(err);
     }
 
-    console.log(json);
+    if (json.message === 'success') {
+      console.log(json);
+      navigate('/path', {
+        state: {
+          startPlace,
+          endPlace,
+          ...json.data,
+        },
+      });
+    }
   };
 
   onSelectNode = (e, name) => {
@@ -75,5 +95,3 @@ class Home extends PureComponent {
     );
   }
 }
-
-export default Home;

@@ -1,17 +1,15 @@
-import React, { Component, Suspense, lazy } from 'react';
+import React, { Suspense, lazy } from 'react';
 
 import { StyledRouter } from './styles';
 
 const HomePage = lazy(() => import('../Home'));
+const PathPage = lazy(() => import('../Path'));
 
-export class App extends Component {
-  render() {
-    return (
-      <Suspense fallback={null}>
-        <StyledRouter>
-          <HomePage path="/" />
-        </StyledRouter>
-      </Suspense>
-    );
-  }
-}
+export const App = () => (
+  <Suspense fallback={null}>
+    <StyledRouter>
+      <HomePage path="/" />
+      <PathPage path="path" />
+    </StyledRouter>
+  </Suspense>
+);
