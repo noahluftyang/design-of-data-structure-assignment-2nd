@@ -5,30 +5,29 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.Vector;
 
-//ë…¸ë“œë²ˆí˜¸ëŠ” ì—‘ì…€ íŒŒì¼ì˜ í–‰ë²ˆí˜¸-2
-//727í˜¸ì˜ ê²½ìš° 25í–‰ì— ì¡´ì¬í•˜ë¯€ë¡œ ë…¸ë“œ ë²ˆí˜¸ëŠ” 23
-//ì§€í•˜ì˜ ê²½ìš° - ë¶™í˜€ì„œ ì…ë ¥
-//B4ì˜ ê²½ìš° -4
-//155~159í–‰ JSON íŒŒì¼ ë³€í™˜ ì‘ì„± í•„ìš”!!!
-
+//³ëµå¹øÈ£´Â ¿¢¼¿ ÆÄÀÏÀÇ Çà¹øÈ£-2
+//727È£ÀÇ °æ¿ì 25Çà¿¡ Á¸ÀçÇÏ¹Ç·Î ³ëµå ¹øÈ£´Â 23
+//ÁöÇÏÀÇ °æ¿ì - ºÙÇô¼­ ÀÔ·Â
+//B4ÀÇ °æ¿ì -4
+//186~188Çà JSON ÆÄÀÏ º¯È¯ ÀÛ¼º ÇÊ¿ä!!!
 
 public class MainClass {
 	public final static int INF=10000;
-	public final static int ELENUM=3;							//ì—˜ë ˆë² ì´í„° ê°œìˆ˜
-	public final static int STAIRNUM=4;							//ê³„ë‹¨ ê°œìˆ˜
-	public final static int MAX=50;								//í•œ ì¸µì˜ ìµœëŒ€ ë…¸ë“œ ê°œìˆ˜
-	public final static int ONEFLOORSTAIRMOVETIME=5;			//í•œ ì¸µ ê³„ë‹¨ ì´ë™ ì‹œê°„
-	static String[] startFloorNodeName=new String[MAX];			//ì¶œë°œì¸µ ë…¸ë“œ ì´ë¦„
-	static String[] endFloorNodeName=new String[MAX];			//ë„ì°©ì¸µ ë…¸ë“œ ì´ë¦„
-	static int[][] startFloorLen=new int[MAX][MAX];				//ì¶œë°œì¸µ edge ê°€ì¤‘ì¹˜ ì €ì¥ ë°°ì—´
-	static int[][] endFloorLen=new int[MAX][MAX];				//ë„ì°©ì¸µ edge ê°€ì¤‘ì¹˜ ì €ì¥ ë°°ì—´
+	public final static int ELENUM=3;							//¿¤·¹º£ÀÌÅÍ °³¼ö
+	public final static int STAIRNUM=4;							//°è´Ü °³¼ö
+	public final static int MAX=50;								//ÇÑ ÃşÀÇ ÃÖ´ë ³ëµå °³¼ö
+	public final static int ONEFLOORSTAIRMOVETIME=20;			//ÇÑ Ãş °è´Ü ÀÌµ¿ ½Ã°£
+	static String[] startFloorNodeName=new String[MAX];			//Ãâ¹ßÃş ³ëµå ÀÌ¸§
+	static String[] endFloorNodeName=new String[MAX];			//µµÂøÃş ³ëµå ÀÌ¸§
+	static int[][] startFloorLen=new int[MAX][MAX];				//Ãâ¹ßÃş edge °¡ÁßÄ¡ ÀúÀå ¹è¿­
+	static int[][] endFloorLen=new int[MAX][MAX];				//µµÂøÃş edge °¡ÁßÄ¡ ÀúÀå ¹è¿­
 	static int[][] elevatorExist= {
 			{-1, 0, -1, -1, -1, -1, -1},
 			{-1, 0, -1, -1, -1, -1, -1},
 			{-1, 0, -1, -1, -1, -1, 1},
-			{-1, 0, -1, -1, -1, -1, 1},
-			{-1, 0, -1, -1, -1, -1, 1},
-			{-1, 0, -1, -1, -1, -1, 1},
+			{0, 1, 2, -1, -1, -1, 3},
+			{0, 1, 2, -1, -1, -1, 3},
+			{0, 1, 2, -1, -1, -1, 3},
 			{0, 1, 2, 3, 4, 5, 6},
 			{0, 1, 2, 3, 4, 5, -1},
 			{0, 1, 2, 3, 4, 5, -1},
@@ -41,32 +40,55 @@ public class MainClass {
 	};
 
 	public static void main(String[] args) {
-		int startFloorNodeNum, endFloorNodeNum;					//ì¶œë°œì¸µì˜ ë…¸ë“œ ê°œìˆ˜, ë„ì°©ì¸µì˜ ë…¸ë“œ ê°œìˆ˜
-		RecommendObject directMove=new RecommendObject();		//ê²½ìœ  ì—†ëŠ” ì´ë™ì‹œê°„, ê²½ë¡œ ì €ì¥
-		RecommendObject undirectMove=new RecommendObject();		//1ì¸µ ê²½ìœ  ì´ë™ì‹œê°„, ê²½ë¡œ ì €ì¥
-		RecommendObject finalRecommend=new RecommendObject();	//ê²½ìœ  ì—†ëŠ” ì´ë™ê³¼ ê²½ìœ  ìˆëŠ” ì´ë™ ì¤‘ ì´ë™ì‹œê°„ì´ ì ì€ ê²ƒì„ ìµœì¢… ì¶”ì²œ
+		int startFloorNodeNum, endFloorNodeNum;					//Ãâ¹ßÃşÀÇ ³ëµå °³¼ö, µµÂøÃşÀÇ ³ëµå °³¼ö
+		RecommendObject directMove=new RecommendObject();		//°æÀ¯ ¾ø´Â ÀÌµ¿½Ã°£, °æ·Î ÀúÀå
+		RecommendObject undirectMove=new RecommendObject();		//1Ãş °æÀ¯ ÀÌµ¿½Ã°£, °æ·Î ÀúÀå
+		RecommendObject finalRecommend=new RecommendObject();	//°æÀ¯ ¾ø´Â ÀÌµ¿°ú °æÀ¯ ÀÖ´Â ÀÌµ¿ Áß ÀÌµ¿½Ã°£ÀÌ ÀûÀº °ÍÀ» ÃÖÁ¾ ÃßÃµ
 		RecommendObject temp=new RecommendObject();
 		Scanner scan=new Scanner(System.in);
+		int[][] tempelevatorExist = new int[6][7];
+		
 		EvInfo.Init();
+
+		for(int i=0; i<6; i++) {
+			for(int j=0; j<7; j++) {
+				tempelevatorExist[i][j]=elevatorExist[i][j];
+			}
+		}
+
 		while(true) {
-			System.out.print("ì¶œë°œì¸µ: ");
+			for(int i=0; i<6; i++) {
+				for(int j=0; j<7; j++) {
+					elevatorExist[i][j]=tempelevatorExist[i][j];
+				}
+			}
+
+			System.out.print("Ãâ¹ßÃş: ");
 			int startFloor=scan.nextInt();
 			startFloorNodeNum=readCSV(startFloor, true);
-			System.out.print("ì¶œë°œì§€ ë…¸ë“œë²ˆí˜¸: ");
+			System.out.print("Ãâ¹ßÁö ³ëµå¹øÈ£: ");
 			int startPlace=scan.nextInt();
-			System.out.print("ë„ì°©ì¸µ: ");
+			System.out.print("µµÂøÃş: ");
 			int endFloor=scan.nextInt();
 			endFloorNodeNum=readCSV(endFloor, false);
-			System.out.print("ë„ì°©ì§€ ë…¸ë“œ ë²ˆí˜¸: ");
+			System.out.print("µµÂøÁö ³ëµå ¹øÈ£: ");
 			int endPlace=scan.nextInt();
 
+			//CSVÆÄÀÏ ÀÔ·Â ½Ã ¿ÀÅ¸ ÀÖ´ÂÁö Ã¼Å©
+			for(int i=0; i<startFloorNodeNum; i++) {
+				for(int j=0; j<startFloorNodeNum; j++) {
+					if(startFloorLen[i][j]!=startFloorLen[j][i])
+						System.out.println(i+" : "+j);
+				}
+			}
+			
+			System.out.println("<1Ãş °æÀ¯ ÇÏÁö ¾Ê´Â °æ¿ì>");
 			directMove=calculateShortestTime(startFloor, endFloor, startPlace, endPlace, startFloorNodeNum, endFloorNodeNum);
 
-			System.out.println("<1ì¸µ ê²½ìœ  í•˜ì§€ ì•ŠëŠ” ê²½ìš°>");
 			for(int i=0; i<directMove.move.size(); i++)
 				System.out.print(directMove.move.elementAt(i));
-			System.out.println(" ì‚¬ìš© ì¶”ì²œ");
-			System.out.println("ì˜ˆìƒ ì†Œìš” ì‹œê°„: " + directMove.requiredTime);
+			System.out.println(" »ç¿ë ÃßÃµ");
+			System.out.println("¿¹»ó ¼Ò¿ä ½Ã°£: " + directMove.requiredTime);
 			for(int i=0; i<directMove.path.size(); i++) {
 				if(i==0)
 					System.out.print(directMove.path.elementAt(i));
@@ -77,74 +99,103 @@ public class MainClass {
 			System.out.println("------------------------");
 
 			if(startFloor*endFloor<0&&startFloor!=1&&endFloor!=1) {
+				if(Math.min(startFloor, endFloor)!=-5&&Math.min(startFloor, endFloor)!=-6) {
+					for(int i=2; i<6; i++) {
+						elevatorExist[i][0]=-1;
+						elevatorExist[i][1]=-1;
+						elevatorExist[i][2]=-1;
+					}
 
-				startFloorNodeNum=readCSV(startFloor, true);
-				endFloorNodeNum=readCSV(1, false);
-				undirectMove=calculateShortestTime(startFloor, 1, startPlace, 6, startFloorNodeNum, endFloorNodeNum);
+					startFloorNodeNum=readCSV(startFloor, true);
+					endFloorNodeNum=readCSV(1, false);
+					/*
+					for(int i=0; i<6; i++) {
+						for(int j=0; j<7; j++) {
+							System.out.print(elevatorExist[i][j]);
+						}
+						System.out.println("");
+					}
+					 */
+					System.out.println("<Ãâ¹ßÁö¿¡¼­ 1Ãş±îÁö>");
+					undirectMove=calculateShortestTime(startFloor, 1, startPlace, 6, startFloorNodeNum, endFloorNodeNum);
+					
+					for(int i=0; i<undirectMove.move.size(); i++)
+						System.out.print(undirectMove.move.elementAt(i));
+					System.out.println(" »ç¿ë ÃßÃµ");
+					System.out.println("¿¹»ó ¼Ò¿ä ½Ã°£: " + undirectMove.requiredTime);
+					for(int i=0; i<undirectMove.path.size(); i++) {
+						if(i==0)
+							System.out.print(undirectMove.path.elementAt(i));
+						else
+							System.out.print("->" + undirectMove.path.elementAt(i));
+					}
+					System.out.println("");
+					System.out.println("------------------------");
 
-				System.out.println("<ì¶œë°œì§€ì—ì„œ 1ì¸µê¹Œì§€>");
-				for(int i=0; i<undirectMove.move.size(); i++)
-					System.out.print(undirectMove.move.elementAt(i));
-				System.out.println(" ì‚¬ìš© ì¶”ì²œ");
-				System.out.println("ì˜ˆìƒ ì†Œìš” ì‹œê°„: " + undirectMove.requiredTime);
-				for(int i=0; i<undirectMove.path.size(); i++) {
-					if(i==0)
-						System.out.print(undirectMove.path.elementAt(i));
-					else
-						System.out.print("->" + undirectMove.path.elementAt(i));
+					startFloorNodeNum=readCSV(1, true);
+					endFloorNodeNum=readCSV(endFloor, false);
+					
+					System.out.println("<1Ãş¿¡¼­ µµÂøÁö±îÁö>");
+					temp=calculateShortestTime(1, endFloor, 6, endPlace, startFloorNodeNum, endFloorNodeNum);
+
+					for(int i=0; i<temp.move.size(); i++)
+						System.out.print(temp.move.elementAt(i));
+					System.out.println(" »ç¿ë ÃßÃµ");
+					System.out.println("¿¹»ó ¼Ò¿ä ½Ã°£: " + temp.requiredTime);
+					for(int i=0; i<temp.path.size(); i++) {
+						if(i==0)
+							System.out.print(temp.path.elementAt(i));
+						else
+							System.out.print("->" + temp.path.elementAt(i));
+					}
+					System.out.println("");
+					System.out.println("------------------------");
+
+					temp.path.remove(0);
+					undirectMove.move.add(temp.move.elementAt(0));
+					undirectMove.requiredTime+=temp.requiredTime;
+					for(int i=0; i<temp.path.size(); i++)
+						undirectMove.path.add(temp.path.elementAt(i));
+
+					System.out.println("<1Ãş °æÀ¯ÇÏ´Â °æ¿ì>");
+					String sstartFloor, sendFloor;
+					for(int i=0; i<undirectMove.move.size(); i++) {
+						if(startFloor>=1)
+							sstartFloor=startFloor+"F";
+						else
+							sstartFloor="B"+Math.abs(startFloor)+"F";
+						if(endFloor>=1)
+							sendFloor=endFloor+"F";
+						else
+							sendFloor="B"+Math.abs(endFloor)+"F";
+						if(i==0)
+							System.out.print(undirectMove.move.elementAt(i)+"("+sstartFloor+"~1F) ");
+						else if(i==1)
+							System.out.print(undirectMove.move.elementAt(i)+"(1F~"+sendFloor+")");
+					}
+					System.out.println(" »ç¿ë ÃßÃµ");
+					System.out.println("¿¹»ó ¼Ò¿ä ½Ã°£: " + undirectMove.requiredTime);
+					for(int i=0; i<undirectMove.path.size(); i++) {
+						if(i==0)
+							System.out.print(undirectMove.path.elementAt(i));
+						else
+							System.out.print("->" + undirectMove.path.elementAt(i));
+					}
+					System.out.println("");
+					System.out.println("------------------------");
 				}
-				System.out.println("");
-				System.out.println("------------------------");
-
-
-				startFloorNodeNum=readCSV(1, true);
-				endFloorNodeNum=readCSV(endFloor, false);
-				temp=calculateShortestTime(1, endFloor, 6, endPlace, startFloorNodeNum, endFloorNodeNum);
-				temp.path.remove(0);
-
-				System.out.println("<1ì¸µì—ì„œ ë„ì°©ì§€ê¹Œì§€>");
-				for(int i=0; i<temp.move.size(); i++)
-					System.out.print(temp.move.elementAt(i));
-				System.out.println(" ì‚¬ìš© ì¶”ì²œ");
-				System.out.println("ì˜ˆìƒ ì†Œìš” ì‹œê°„: " + temp.requiredTime);
-				for(int i=0; i<temp.path.size(); i++) {
-					if(i==0)
-						System.out.print(temp.path.elementAt(i));
-					else
-						System.out.print("->" + temp.path.elementAt(i));
-				}
-				System.out.println("");
-				System.out.println("------------------------");
-
-				undirectMove.move.add(temp.move.elementAt(0));
-				undirectMove.requiredTime+=temp.requiredTime;
-				for(int i=0; i<temp.path.size(); i++)
-					undirectMove.path.add(temp.path.elementAt(i));
-
-				System.out.println("<1ì¸µ ê²½ìœ í•˜ëŠ” ê²½ìš°>");
-				for(int i=0; i<undirectMove.move.size(); i++)
-					System.out.print(undirectMove.move.elementAt(i));
-				System.out.println(" ì‚¬ìš© ì¶”ì²œ");
-				System.out.println("ì˜ˆìƒ ì†Œìš” ì‹œê°„: " + undirectMove.requiredTime);
-				for(int i=0; i<undirectMove.path.size(); i++) {
-					if(i==0)
-						System.out.print(undirectMove.path.elementAt(i));
-					else
-						System.out.print("->" + undirectMove.path.elementAt(i));
-				}
-				System.out.println("");
-				System.out.println("------------------------");
 			}
+			
 			if(directMove.requiredTime<=undirectMove.requiredTime)
 				finalRecommend=directMove;
 			else
 				finalRecommend=undirectMove;
 
-			System.out.println("<ìµœì¢… ì¶”ì²œ>");
+			System.out.println("<ÃÖÁ¾ ÃßÃµ>");
 			for(int i=0; i<finalRecommend.move.size(); i++)
 				System.out.print(finalRecommend.move.elementAt(i));
-			System.out.println(" ì‚¬ìš© ì¶”ì²œ");
-			System.out.println("ì˜ˆìƒ ì†Œìš” ì‹œê°„: " + finalRecommend.requiredTime);
+			System.out.println(" »ç¿ë ÃßÃµ");
+			System.out.println("¿¹»ó ¼Ò¿ä ½Ã°£: " + finalRecommend.requiredTime);
 			for(int i=0; i<finalRecommend.path.size(); i++) {
 				if(i==0)
 					System.out.print(finalRecommend.path.elementAt(i));
@@ -152,25 +203,13 @@ public class MainClass {
 					System.out.print("->" + finalRecommend.path.elementAt(i));
 			}
 			System.out.println("");
-			
-			/*
-			 * ì‚¬ìš© ì´ë™ìˆ˜ë‹¨: finalRecommend.move(ê²½ìœ  í•˜ì§€ ì•Šìœ¼ë©´ í•œê°œ, ê²½ìœ  í•˜ë©´ ë‘ê°œ)(Stringí˜• Vector)
-			 * ì´ ì†Œìš”ì‹œê°„: finalRecommend.requiredTime(intí˜•)
-			 * ì´ë™ ê²½ë¡œ: finalRecommend.path(Stringí˜• Vector) 
-			*/
-			
 
 			/*
-			CSVíŒŒì¼ ì…ë ¥ ì‹œ ì˜¤íƒ€ ìˆëŠ”ì§€ ì²´í¬
-			for(int i=0; i<startFloorNodeNum; i++) {
-			for(int j=0; j<startFloorNodeNum; j++) {
-			if(startFloorLen[i][j]!=startFloorLen[j][i])
-				System.out.println(i+" : "+j);
-				}
-			}
+			 * »ç¿ë ÀÌµ¿¼ö´Ü: finalRecommend.move(°æÀ¯ ÇÏÁö ¾ÊÀ¸¸é ÇÑ°³, °æÀ¯ ÇÏ¸é µÎ°³)(StringÇü Vector)
+			 * ÃÑ ¼Ò¿ä½Ã°£: finalRecommend.requiredTime(intÇü)
+			 * ÀÌµ¿ °æ·Î: finalRecommend.path(StringÇü Vector) 
 			 */
 		}
-
 	}
 
 	public static RecommendObject calculateShortestTime(int startFloor, int endFloor, int startPlace, int endPlace, int startFloorNodeNum, int endFloorNodeNum) {
@@ -266,6 +305,7 @@ public class MainClass {
 		int[] totalTime=new int[ELENUM+STAIRNUM];
 		for(int i=0; i<ELENUM+STAIRNUM; i++)
 			totalTime[i]=INF;
+		
 		int tempstartFloor, tempendFloor;
 		if(startFloor<1)
 			tempstartFloor=startFloor+6;
@@ -278,9 +318,9 @@ public class MainClass {
 
 		for(int i=0; i<ELENUM+STAIRNUM; i++) {
 			if(elevatorExist[tempstartFloor][i]!=-1 && elevatorExist[tempendFloor][i]!=-1) {
-				//System.out.println(startFloorNodeName[elevatorExist[tempstartFloor][i]] + " ì‚¬ìš©: ");
+				//System.out.println(startFloorNodeName[elevatorExist[tempstartFloor][i]] + " »ç¿ë: ");
 
-				//System.out.println("ì¶œë°œì§€~"+ startFloorNodeName[elevatorExist[tempstartFloor][i]] + ": "+ startFloorTime[elevatorExist[tempstartFloor][i]]);
+				//System.out.println("Ãâ¹ßÁö~"+ startFloorNodeName[elevatorExist[tempstartFloor][i]] + ": "+ startFloorTime[elevatorExist[tempstartFloor][i]]);
 				//System.out.print(startFloorNodeName[elevatorExist[tempstartFloor][i]]);
 				j=elevatorExist[tempstartFloor][i];
 				do {
@@ -289,9 +329,9 @@ public class MainClass {
 				}while(j!=startPlace);
 				//System.out.println("");
 
-				//System.out.println(startFloorNodeName[elevatorExist[tempstartFloor][i]] + " ëŒ€ê¸°+ì´ë™ ì‹œê°„: "+floorMoveTime(i, startFloor, endFloor));
+				//System.out.println(startFloorNodeName[elevatorExist[tempstartFloor][i]] + " ´ë±â+ÀÌµ¿ ½Ã°£: "+floorMoveTime(i, startFloor, endFloor));
 
-				//System.out.println(endFloorNodeName[elevatorExist[tempendFloor][i]] + "~ë„ì°©ì§€: "+ endFloorTime[elevatorExist[tempendFloor][i]]);
+				//System.out.println(endFloorNodeName[elevatorExist[tempendFloor][i]] + "~µµÂøÁö: "+ endFloorTime[elevatorExist[tempendFloor][i]]);
 				//System.out.print(endFloorNodeName[elevatorExist[tempendFloor][i]]);
 				j=elevatorExist[tempendFloor][i];
 				do {
@@ -301,7 +341,7 @@ public class MainClass {
 				//System.out.println("");
 
 				totalTime[i]=startFloorTime[elevatorExist[tempstartFloor][i]]+floorMoveTime(i, startFloor, endFloor)+endFloorTime[elevatorExist[tempendFloor][i]];
-				//System.out.println("ì´ ì†Œìš” ì‹œê°„: "+ totalTime[i]);
+				System.out.println(startFloorNodeName[elevatorExist[tempstartFloor][i]] + " »ç¿ë½Ã ¼Ò¿ä ½Ã°£: "+ totalTime[i]);
 				//System.out.println("");
 			}
 		}
@@ -314,7 +354,14 @@ public class MainClass {
 			}
 		}
 
-		temp.add(startFloorNodeName[elevatorExist[tempstartFloor][minElevator]]);
+		try {
+			temp.add(startFloorNodeName[elevatorExist[tempstartFloor][minElevator]]);
+		}catch(ArrayIndexOutOfBoundsException e) {
+			System.out.println("tempstartFloor" + tempstartFloor);
+			System.out.println("minElevator" + minElevator);
+			System.out.println("elevatorExist" + elevatorExist[tempstartFloor][minElevator]);
+		}
+
 		j=elevatorExist[tempstartFloor][minElevator];
 		do {
 			j=startFloorPred[j];
@@ -329,15 +376,9 @@ public class MainClass {
 			path.add(endFloorNodeName[j]);
 		}while(j!=endPlace);
 
-		boolean isElevator=false;
-		for(int i=0; i<ELENUM+STAIRNUM; i++) {
-			if(elevatorExist[tempendFloor][i]==endPlace) {
-				isElevator=true;
-				break;
-			}
-		}
-
-		if(isElevator)
+		if(path.elementAt(0).equals(path.elementAt(1)))
+			path.remove(0);
+		if(path.elementAt(path.size()-2).equals(path.elementAt(path.size()-1)))
 			path.remove(path.size()-1);
 
 		RecommendObject recommendobject=new RecommendObject();
@@ -349,11 +390,11 @@ public class MainClass {
 
 
 	public static int floorMoveTime(int eleNum, int startFloor, int endFloor) {
-		if(eleNum<=2)		//ì—˜ë¦¬ë² ì´í„° ì´ìš© ëŒ€ê¸°+ì´ë™ì‹œê°„
+		if(eleNum<=2)		//¿¤¸®º£ÀÌÅÍ ÀÌ¿ë ´ë±â+ÀÌµ¿½Ã°£
 			return EvInfo.GetMoveTime(eleNum, startFloor, endFloor).avg;
-		else{				//ê³„ë‹¨ ì´ìš© ëŒ€ê¸°+ì´ë™ì‹œê°„
+		else{				//°è´Ü ÀÌ¿ë ´ë±â+ÀÌµ¿½Ã°£
 			if(startFloor*endFloor<0)
-				return (Math.abs(startFloor-endFloor)+1)*ONEFLOORSTAIRMOVETIME;
+				return (Math.abs(startFloor-endFloor)-1)*ONEFLOORSTAIRMOVETIME;
 			else
 				return Math.abs(startFloor-endFloor)*ONEFLOORSTAIRMOVETIME;
 		}
@@ -361,14 +402,13 @@ public class MainClass {
 
 	public static int readCSV(int floor, boolean isStartFloor) {
 		String csvFile;
-
 		if(floor>=1)
-			//csvFile = "C:\\Users\\Owner\\Desktop\\ìë£Œêµ¬ì¡°ì„¤ê³„\\"+floor+"F.csv";
-		   	 csvFile = "./data/floor/"+floor+"F.csv";//				(ìƒëŒ€ê²½ë¡œ)
+			csvFile = "C:\\Users\\Owner\\Desktop\\ÀÚ·á±¸Á¶¼³°è\\"+floor+"F.csv";
+		//csvFile = ".\"+floor+"F.csv";					(»ó´ë°æ·Î)
 		else {
 			floor=-floor;
-			//csvFile = "C:\\Users\\Owner\\Desktop\\ìë£Œêµ¬ì¡°ì„¤ê³„\\B"+floor+"F.csv";
-			csvFile = "./data/floor/B"+floor+"F.csv";//			(ìƒëŒ€ê²½ë¡œ)
+			csvFile = "C:\\Users\\Owner\\Desktop\\ÀÚ·á±¸Á¶¼³°è\\B"+floor+"F.csv";
+			//csvFile = ".\"+"B"+floor+"F.csv";			(»ó´ë°æ·Î)
 		}
 
 		BufferedReader br = null;
