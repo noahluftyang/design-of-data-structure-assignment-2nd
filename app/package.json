@@ -22,6 +22,7 @@
     "chalk": "2.4.1",
     "css-loader": "1.0.0",
     "cytoscape": "3.2.20",
+    "date-fns": "^1.30.1",
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
     "eslint": "5.6.0",

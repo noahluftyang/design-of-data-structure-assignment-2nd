@@ -11,6 +11,8 @@ export default class Home extends PureComponent {
     endFloor: null,
     startPlace: null,
     endPlace: null,
+    startLabel: '',
+    endLabel: '',
     // Way: 'elevator',
   };
 
@@ -34,21 +36,12 @@ export default class Home extends PureComponent {
   }
 
   fetchShortcut = async () => {
-    const { startPlace, endPlace } = this.state;
+    const { startLabel, endLabel } = this.state;
     let json;
 
     try {
       const response = await getJson(`/path?${stringify(this.state)}`);
       json = await response.json();
-
-      // json = {
-      //   data: {
-      //     move: 'BElevator',
-      //     time: '12분',
-      //     path: ['727', 'BElevator', 'seveneleven', 'canon', 'vietnam', 'cauburgur', 'exit1'],
-      //   },
-      //   message: 'success',
-      // };
     } catch (err) {
       console.error(err);
       // throw new Error(err);
@@ -58,8 +51,8 @@ export default class Home extends PureComponent {
       console.log(json);
       navigate('/path', {
         state: {
-          startPlace,
-          endPlace,
+          startLabel,
+          endLabel,
           ...json.data,
         },
       });
@@ -68,11 +61,13 @@ export default class Home extends PureComponent {
 
   onSelectNode = (e, name) => {
     const floor = `${name}Floor`;
+    const label = `${name}Label`;
     const place = `${name}Place`;
 
     this.setState(state => ({
       ...state,
       [floor]: e.floor,
+      [label]: e.label,
       [place]: e.value,
     }));
   };

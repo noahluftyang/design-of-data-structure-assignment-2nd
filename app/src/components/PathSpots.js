@@ -2,13 +2,14 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
 class PathSpotsComponent extends PureComponent {
-  render () {
+  render() {
     const { className, move, path, time } = this.props;
+    const timeDistance = time < 60 ? `${time}초` : `${Math.floor(time / 60)}분 ${time % 60}초`;
 
     return (
       <div className={className}>
         <PathOverview>
-          <h2>{time}</h2>
+          <h2>{timeDistance}</h2>
           <h4>{move}를 이용합니다.</h4>
         </PathOverview>
         <SpotList>
