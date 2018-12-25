@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class EvInfo {
 
-  static final String csvFileDir = "./data/elevator/";
+  static final String csvFileDir = "data/elevator/";
   static String cvsSplitBy = ",";
   static final int floorCount = 15;
   static int[][][] floorEvCrowdData;
@@ -71,10 +71,11 @@ public class EvInfo {
     floorEvCrowdData = new int[3][floorCount + 1][36001];
     floorEvCrowdDataDelta = new int[3][floorCount + 1][36001];
     floorEvWaitTime = new int[3][floorCount + 1][36001];
+    String path = EvInfo.class.getResource("").getPath();
     String todayWeekDayS = GetDayOfWeek(todayWeekDay);
-    InitEv(0, csvFileDir + todayWeekDayS + "_a.csv");
-    InitEv(1, csvFileDir + todayWeekDayS + "_b.csv");
-    InitEv(2, csvFileDir + todayWeekDayS + "_c.csv");
+    InitEv(0, path + csvFileDir + todayWeekDayS + "_a.csv");
+    InitEv(1, path + csvFileDir + todayWeekDayS + "_b.csv");
+    InitEv(2, path + csvFileDir + todayWeekDayS + "_c.csv");
     System.out.print(todayWeekDayS + " 데이터 로딩 완료...\n");
 
     floorEvCrowdData = null;

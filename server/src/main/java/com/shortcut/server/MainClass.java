@@ -192,9 +192,9 @@ public class MainClass {
       System.out.println("");
 
       /*
-       * ��� �̵�����: finalRecommend.move(���� ���� ������ �Ѱ�, ���� �ϸ� �ΰ�)(Strin
-       *  �� Vector) �� �ҿ�ð�: finalRecommend.requiredTime(int��) �̵�
-       *  ���: finalRecommend.path(String�� Vector)
+       * ��� �̵�����: finalRecommend.move(���� ���� ������ �Ѱ�, ���� �ϸ� �ΰ�)(Strin ��
+       * Vector) �� �ҿ�ð�: finalRecommend.requiredTime(int��) �̵� ���:
+       * finalRecommend.path(String�� Vector)
        */
     }
   }
@@ -395,12 +395,14 @@ public class MainClass {
 
   public static int readCSV(int floor, boolean isStartFloor) {
     String csvFile;
+    String path = MainClass.class.getResource("").getPath();
+
     if (floor >= 1)
-      csvFile = "C:\\Users\\Owner\\Desktop\\�ڷᱸ������\\" + floor + "F.csv";
+      csvFile = path + floor + "F.csv";
     // csvFile = ".\"+floor+"F.csv"; (�����)
     else {
       floor = -floor;
-      csvFile = "C:\\Users\\Owner\\Desktop\\�ڷᱸ������\\B" + floor + "F.csv";
+      csvFile = path + floor + "F.csv";
       // csvFile = ".\"+"B"+floor+"F.csv"; (�����)
     }
 
