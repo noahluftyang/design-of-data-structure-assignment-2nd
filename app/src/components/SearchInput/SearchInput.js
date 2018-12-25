@@ -6,20 +6,15 @@ import {
   BFIRST_FLOOR,
   BFORTH_FLOOR,
   BSECOND_FLOOR,
-  BSIXTH_FLOOR,
   BTHIRD_FLOOR,
   EIGHTH_FLOOR,
-  ELEVENTH_FLOOR,
   FIFTH_FLOOR,
   FIRST_FLOOR,
   FORTH_FLOOR,
   NINTH_FLOOR,
-  SECOND_FLOOR,
   SEVENTH_FLOOR,
   SIXTH_FLOOR,
-  TENTH_FLOOR,
   THIRD_FLOOR,
-  TWELFTH_FLOOR,
 } from './constants';
 import { Title, inputStyles } from './styles';
 
