@@ -25,14 +25,14 @@ import { Title, inputStyles } from './styles';
 
 export class SearchInputComponent extends PureComponent {
   groupedOptions = [
-    { label: 'B6FLOOR', options: BSIXTH_FLOOR },
+    // { label: 'B6FLOOR', options: BSIXTH_FLOOR },
     { label: 'B5FLOOR', options: BFIFTH_FLOOR },
     { label: 'B4FLOOR', options: BFORTH_FLOOR },
     { label: 'B3FLOOR', options: BTHIRD_FLOOR },
     { label: 'B2FLOOR', options: BSECOND_FLOOR },
     { label: 'B1FLOOR', options: BFIRST_FLOOR },
     { label: '1FLOOR', options: FIRST_FLOOR },
-    { label: '2FLOOR', options: SECOND_FLOOR },
+    // { label: '2FLOOR', options: SECOND_FLOOR },
     { label: '3FLOOR', options: THIRD_FLOOR },
     { label: '4FLOOR', options: FORTH_FLOOR },
     { label: '5FLOOR', options: FIFTH_FLOOR },
@@ -40,9 +40,9 @@ export class SearchInputComponent extends PureComponent {
     { label: '7FLOOR', options: SEVENTH_FLOOR },
     { label: '8FLOOR', options: EIGHTH_FLOOR },
     { label: '9FLOOR', options: NINTH_FLOOR },
-    { label: '10FLOOR', options: TENTH_FLOOR },
-    { label: '11FLOOR', options: ELEVENTH_FLOOR },
-    { label: '12FLOOR', options: TWELFTH_FLOOR },
+    // { label: '10FLOOR', options: TENTH_FLOOR },
+    // { label: '11FLOOR', options: ELEVENTH_FLOOR },
+    // { label: '12FLOOR', options: TWELFTH_FLOOR },
   ];
 
   onChange = e => {
