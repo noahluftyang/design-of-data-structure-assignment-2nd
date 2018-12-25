@@ -36,11 +36,11 @@ export default class Home extends PureComponent {
   }
 
   fetchShortcut = async () => {
-    const { startLabel, endLabel } = this.state;
+    const { startLabel, endLabel, ...state } = this.state;
     let json;
 
     try {
-      const response = await getJson(`/path?${stringify(this.state)}`);
+      const response = await getJson(`/path?${stringify(state)}`);
       json = await response.json();
     } catch (err) {
       console.error(err);
