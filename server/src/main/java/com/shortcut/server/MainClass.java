@@ -192,9 +192,9 @@ public class MainClass {
       System.out.println("");
 
       /*
-       * ��� �̵�����: finalRecommend.move(���� ���� ������ �Ѱ�, ���� �ϸ� �ΰ�)(Strin ��
-       * Vector) �� �ҿ�ð�: finalRecommend.requiredTime(int��) �̵� ���:
-       * finalRecommend.path(String�� Vector)
+       * ��� �̵�����: finalRecommend.move(���� ���� ������ �Ѱ�, ���� �ϸ� �ΰ�)(Strin
+       *  �� Vector) �� �ҿ�ð�: finalRecommend.requiredTime(int��) �̵�
+       *  ���: finalRecommend.path(String�� Vector)
        */
     }
   }
@@ -398,11 +398,11 @@ public class MainClass {
     String path = MainClass.class.getResource("").getPath();
 
     if (floor >= 1)
-      csvFile = path + floor + "F.csv";
+      csvFile = path + "data/floor/" + floor + "F.csv";
     // csvFile = ".\"+floor+"F.csv"; (�����)
     else {
       floor = -floor;
-      csvFile = path + floor + "F.csv";
+      csvFile = path + "data/floor/B" + floor + "F.csv";
       // csvFile = ".\"+"B"+floor+"F.csv"; (�����)
     }
 
