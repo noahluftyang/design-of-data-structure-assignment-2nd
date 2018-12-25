@@ -1,23 +1,25 @@
 package com.shortcut.server;
 
-public class ResponseData {
-  private String move;
-  private String time;
-  private String[] path;
+import java.util.Vector;
 
-  public String getMove() {
+public class ResponseData {
+  private Vector<String> move;
+  private int time;
+  private Vector<String> path;
+
+  public Vector<String> getMove() {
     return move;
   }
 
-  public String getTime() {
+  public int getTime() {
     return time;
   }
 
-  public String[] getPath() {
+  public Vector<String> getPath() {
     return path;
   }
 
-  public ResponseData(String move, String time, String[] path) {
+  public ResponseData(Vector<String> move, int time, Vector<String> path) {
     this.move = move;
     this.time = time;
     this.path = path;

@@ -196,6 +196,8 @@ public class MainClass {
        *  �� Vector) �� �ҿ�ð�: finalRecommend.requiredTime(int��) �̵�
        *  ���: finalRecommend.path(String�� Vector)
        */
+
+      return new ResponseData(finalRecommend.move, finalRecommend.requiredTime, finalRecommend.path);
     }
   }
 
