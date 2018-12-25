@@ -1,7 +1,9 @@
+package com.shortcut.server;
+
 import java.util.Vector;
 
 public class RecommendObject {
-	Vector<String> move=new Vector<String>();			//?´?™?ˆ˜?‹¨ ?´ë¦?
-	int requiredTime=10000;								//?†Œ?š” ?‹œê°?
-	Vector<String> path=new Vector<String>();			//?´?™ ê²½ë¡œ
+  Vector<String> move = new Vector<String>(); // ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½?
+  int requiredTime = 10000; // ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½?
+  Vector<String> path = new Vector<String>(); // ?ï¿½ï¿½?ï¿½ï¿½ ê²½ë¡œ
 }

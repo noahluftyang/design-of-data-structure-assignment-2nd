@@ -1,5 +1,3 @@
-
-
 const fs = require('fs');
 const path = require('path');
 const resolve = require('resolve');
@@ -132,7 +130,8 @@ module.exports = {
     // This is the URL that app is served from. We use "/" in development.
     publicPath,
     // Point sourcemap entries to original disk location (format as URL on Windows)
-    devtoolModuleFilenameTemplate: (info) => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
+    devtoolModuleFilenameTemplate: info =>
+      path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
   },
   optimization: {
     /*
@@ -170,8 +169,8 @@ module.exports = {
      * for React Native Web.
      */
     extensions: paths.moduleFileExtensions
-      .map((ext) => `.${ext}`)
-      .filter((ext) => useTypeScript || !ext.includes('ts')),
+      .map(ext => `.${ext}`)
+      .filter(ext => useTypeScript || !ext.includes('ts')),
     alias: {
       /*
        * Support React Native Web
@@ -296,7 +295,9 @@ module.exports = {
               babelrc: false,
               configFile: false,
               compact: false,
-              presets: [[require.resolve('babel-preset-react-app/dependencies'), { helpers: true }]],
+              presets: [
+                [require.resolve('babel-preset-react-app/dependencies'), { helpers: true }],
+              ],
               cacheDirectory: true,
               // Don't waste time on Gzipping the cache
               cacheCompression: false,

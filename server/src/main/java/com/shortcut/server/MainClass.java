@@ -1,3 +1,5 @@
+package com.shortcut.server;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -5,458 +7,448 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.Vector;
 
-//³ëµå¹øÈ£´Â ¿¢¼¿ ÆÄÀÏÀÇ Çà¹øÈ£-2
-//727È£ÀÇ °æ¿ì 25Çà¿¡ Á¸ÀçÇÏ¹Ç·Î ³ëµå ¹øÈ£´Â 23
-//ÁöÇÏÀÇ °æ¿ì - ºÙÇô¼­ ÀÔ·Â
-//B4ÀÇ °æ¿ì -4
-//186~188Çà JSON ÆÄÀÏ º¯È¯ ÀÛ¼º ÇÊ¿ä!!!
+//ï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½È£-2
+//727È£ï¿½ï¿½ ï¿½ï¿½ï¿½ 25ï¿½à¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ 23
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½
+//B4ï¿½ï¿½ ï¿½ï¿½ï¿½ -4
+//186~188ï¿½ï¿½ JSON ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½Û¼ï¿½ ï¿½Ê¿ï¿½!!!
 
 public class MainClass {
-	public final static int INF=10000;
-	public final static int ELENUM=3;							//¿¤·¹º£ÀÌÅÍ °³¼ö
-	public final static int STAIRNUM=4;							//°è´Ü °³¼ö
-	public final static int MAX=50;								//ÇÑ ÃþÀÇ ÃÖ´ë ³ëµå °³¼ö
-	public final static int ONEFLOORSTAIRMOVETIME=20;			//ÇÑ Ãþ °è´Ü ÀÌµ¿ ½Ã°£
-	static String[] startFloorNodeName=new String[MAX];			//Ãâ¹ßÃþ ³ëµå ÀÌ¸§
-	static String[] endFloorNodeName=new String[MAX];			//µµÂøÃþ ³ëµå ÀÌ¸§
-	static int[][] startFloorLen=new int[MAX][MAX];				//Ãâ¹ßÃþ edge °¡ÁßÄ¡ ÀúÀå ¹è¿­
-	static int[][] endFloorLen=new int[MAX][MAX];				//µµÂøÃþ edge °¡ÁßÄ¡ ÀúÀå ¹è¿­
-	static int[][] elevatorExist= {
-			{-1, 0, -1, -1, -1, -1, -1},
-			{-1, 0, -1, -1, -1, -1, -1},
-			{-1, 0, -1, -1, -1, -1, 1},
-			{0, 1, 2, -1, -1, -1, 3},
-			{0, 1, 2, -1, -1, -1, 3},
-			{0, 1, 2, -1, -1, -1, 3},
-			{0, 1, 2, 3, 4, 5, 6},
-			{0, 1, 2, 3, 4, 5, -1},
-			{0, 1, 2, 3, 4, 5, -1},
-			{0, 1, 2, 3, 4, 5, -1},
-			{0, 1, 2, 3, 4, 5, -1},
-			{0, 1, 2, 3, 4, 5, -1},
-			{0, 1, 2, 3, 4, 5, -1},
-			{0, 1, 2, 3, 4, 5, -1},
-			{0, 1, 2, 3, 4, 5, -1}
-	};
+  public final static int INF = 10000;
+  public final static int ELENUM = 3; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+  public final static int STAIRNUM = 4; // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+  public final static int MAX = 50; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+  public final static int ONEFLOORSTAIRMOVETIME = 20; // ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Ã°ï¿½
+  static String[] startFloorNodeName = new String[MAX]; // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+  static String[] endFloorNodeName = new String[MAX]; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+  static int[][] startFloorLen = new int[MAX][MAX]; // ï¿½ï¿½ï¿½ï¿½ï¿½ edge ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­
+  static int[][] endFloorLen = new int[MAX][MAX]; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ edge ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­
+  static int[][] elevatorExist = { { -1, 0, -1, -1, -1, -1, -1 }, { -1, 0, -1, -1, -1, -1, -1 },
+      { -1, 0, -1, -1, -1, -1, 1 }, { 0, 1, 2, -1, -1, -1, 3 }, { 0, 1, 2, -1, -1, -1, 3 }, { 0, 1, 2, -1, -1, -1, 3 },
+      { 0, 1, 2, 3, 4, 5, 6 }, { 0, 1, 2, 3, 4, 5, -1 }, { 0, 1, 2, 3, 4, 5, -1 }, { 0, 1, 2, 3, 4, 5, -1 },
+      { 0, 1, 2, 3, 4, 5, -1 }, { 0, 1, 2, 3, 4, 5, -1 }, { 0, 1, 2, 3, 4, 5, -1 }, { 0, 1, 2, 3, 4, 5, -1 },
+      { 0, 1, 2, 3, 4, 5, -1 } };
 
-	public static void main(String[] args) {
-		int startFloorNodeNum, endFloorNodeNum;					//Ãâ¹ßÃþÀÇ ³ëµå °³¼ö, µµÂøÃþÀÇ ³ëµå °³¼ö
-		RecommendObject directMove=new RecommendObject();		//°æÀ¯ ¾ø´Â ÀÌµ¿½Ã°£, °æ·Î ÀúÀå
-		RecommendObject undirectMove=new RecommendObject();		//1Ãþ °æÀ¯ ÀÌµ¿½Ã°£, °æ·Î ÀúÀå
-		RecommendObject finalRecommend=new RecommendObject();	//°æÀ¯ ¾ø´Â ÀÌµ¿°ú °æÀ¯ ÀÖ´Â ÀÌµ¿ Áß ÀÌµ¿½Ã°£ÀÌ ÀûÀº °ÍÀ» ÃÖÁ¾ ÃßÃµ
-		RecommendObject temp=new RecommendObject();
-		Scanner scan=new Scanner(System.in);
-		int[][] tempelevatorExist = new int[6][7];
-		
-		EvInfo.Init();
+  public static void main(String[] args) {
+    int startFloorNodeNum, endFloorNodeNum; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    RecommendObject directMove = new RecommendObject(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ã°ï¿½, ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    RecommendObject undirectMove = new RecommendObject(); // 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ã°ï¿½, ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    RecommendObject finalRecommend = new RecommendObject(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                                                            // ï¿½ï¿½Ãµ
+    RecommendObject temp = new RecommendObject();
+    Scanner scan = new Scanner(System.in);
+    int[][] tempelevatorExist = new int[6][7];
 
-		for(int i=0; i<6; i++) {
-			for(int j=0; j<7; j++) {
-				tempelevatorExist[i][j]=elevatorExist[i][j];
-			}
-		}
+    EvInfo.Init();
 
-		while(true) {
-			for(int i=0; i<6; i++) {
-				for(int j=0; j<7; j++) {
-					elevatorExist[i][j]=tempelevatorExist[i][j];
-				}
-			}
+    for (int i = 0; i < 6; i++) {
+      for (int j = 0; j < 7; j++) {
+        tempelevatorExist[i][j] = elevatorExist[i][j];
+      }
+    }
 
-			System.out.print("Ãâ¹ßÃþ: ");
-			int startFloor=scan.nextInt();
-			startFloorNodeNum=readCSV(startFloor, true);
-			System.out.print("Ãâ¹ßÁö ³ëµå¹øÈ£: ");
-			int startPlace=scan.nextInt();
-			System.out.print("µµÂøÃþ: ");
-			int endFloor=scan.nextInt();
-			endFloorNodeNum=readCSV(endFloor, false);
-			System.out.print("µµÂøÁö ³ëµå ¹øÈ£: ");
-			int endPlace=scan.nextInt();
+    while (true) {
+      for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 7; j++) {
+          elevatorExist[i][j] = tempelevatorExist[i][j];
+        }
+      }
 
-			//CSVÆÄÀÏ ÀÔ·Â ½Ã ¿ÀÅ¸ ÀÖ´ÂÁö Ã¼Å©
-			for(int i=0; i<startFloorNodeNum; i++) {
-				for(int j=0; j<startFloorNodeNum; j++) {
-					if(startFloorLen[i][j]!=startFloorLen[j][i])
-						System.out.println(i+" : "+j);
-				}
-			}
-			
-			System.out.println("<1Ãþ °æÀ¯ ÇÏÁö ¾Ê´Â °æ¿ì>");
-			directMove=calculateShortestTime(startFloor, endFloor, startPlace, endPlace, startFloorNodeNum, endFloorNodeNum);
+      System.out.print("ï¿½ï¿½ï¿½ï¿½ï¿½: ");
+      int startFloor = scan.nextInt();
+      startFloorNodeNum = readCSV(startFloor, true);
+      System.out.print("ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È£: ");
+      int startPlace = scan.nextInt();
+      System.out.print("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ");
+      int endFloor = scan.nextInt();
+      endFloorNodeNum = readCSV(endFloor, false);
+      System.out.print("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£: ");
+      int endPlace = scan.nextInt();
 
-			for(int i=0; i<directMove.move.size(); i++)
-				System.out.print(directMove.move.elementAt(i));
-			System.out.println(" »ç¿ë ÃßÃµ");
-			System.out.println("¿¹»ó ¼Ò¿ä ½Ã°£: " + directMove.requiredTime);
-			for(int i=0; i<directMove.path.size(); i++) {
-				if(i==0)
-					System.out.print(directMove.path.elementAt(i));
-				else
-					System.out.print("->" + directMove.path.elementAt(i));
-			}
-			System.out.println("");
-			System.out.println("------------------------");
+      // CSVï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½ ï¿½ï¿½Å¸ ï¿½Ö´ï¿½ï¿½ï¿½ Ã¼Å©
+      for (int i = 0; i < startFloorNodeNum; i++) {
+        for (int j = 0; j < startFloorNodeNum; j++) {
+          if (startFloorLen[i][j] != startFloorLen[j][i])
+            System.out.println(i + " : " + j);
+        }
+      }
 
-			if(startFloor*endFloor<0&&startFloor!=1&&endFloor!=1) {
-				if(Math.min(startFloor, endFloor)!=-5&&Math.min(startFloor, endFloor)!=-6) {
-					for(int i=2; i<6; i++) {
-						elevatorExist[i][0]=-1;
-						elevatorExist[i][1]=-1;
-						elevatorExist[i][2]=-1;
-					}
+      System.out.println("<1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½>");
+      directMove = calculateShortestTime(startFloor, endFloor, startPlace, endPlace, startFloorNodeNum,
+          endFloorNodeNum);
 
-					startFloorNodeNum=readCSV(startFloor, true);
-					endFloorNodeNum=readCSV(1, false);
-					/*
-					for(int i=0; i<6; i++) {
-						for(int j=0; j<7; j++) {
-							System.out.print(elevatorExist[i][j]);
-						}
-						System.out.println("");
-					}
-					 */
-					System.out.println("<Ãâ¹ßÁö¿¡¼­ 1Ãþ±îÁö>");
-					undirectMove=calculateShortestTime(startFloor, 1, startPlace, 6, startFloorNodeNum, endFloorNodeNum);
-					
-					for(int i=0; i<undirectMove.move.size(); i++)
-						System.out.print(undirectMove.move.elementAt(i));
-					System.out.println(" »ç¿ë ÃßÃµ");
-					System.out.println("¿¹»ó ¼Ò¿ä ½Ã°£: " + undirectMove.requiredTime);
-					for(int i=0; i<undirectMove.path.size(); i++) {
-						if(i==0)
-							System.out.print(undirectMove.path.elementAt(i));
-						else
-							System.out.print("->" + undirectMove.path.elementAt(i));
-					}
-					System.out.println("");
-					System.out.println("------------------------");
+      for (int i = 0; i < directMove.move.size(); i++)
+        System.out.print(directMove.move.elementAt(i));
+      System.out.println(" ï¿½ï¿½ï¿½ ï¿½ï¿½Ãµ");
+      System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¿ï¿½ ï¿½Ã°ï¿½: " + directMove.requiredTime);
+      for (int i = 0; i < directMove.path.size(); i++) {
+        if (i == 0)
+          System.out.print(directMove.path.elementAt(i));
+        else
+          System.out.print("->" + directMove.path.elementAt(i));
+      }
+      System.out.println("");
+      System.out.println("------------------------");
 
-					startFloorNodeNum=readCSV(1, true);
-					endFloorNodeNum=readCSV(endFloor, false);
-					
-					System.out.println("<1Ãþ¿¡¼­ µµÂøÁö±îÁö>");
-					temp=calculateShortestTime(1, endFloor, 6, endPlace, startFloorNodeNum, endFloorNodeNum);
+      if (startFloor * endFloor < 0 && startFloor != 1 && endFloor != 1) {
+        if (Math.min(startFloor, endFloor) != -5 && Math.min(startFloor, endFloor) != -6) {
+          for (int i = 2; i < 6; i++) {
+            elevatorExist[i][0] = -1;
+            elevatorExist[i][1] = -1;
+            elevatorExist[i][2] = -1;
+          }
 
-					for(int i=0; i<temp.move.size(); i++)
-						System.out.print(temp.move.elementAt(i));
-					System.out.println(" »ç¿ë ÃßÃµ");
-					System.out.println("¿¹»ó ¼Ò¿ä ½Ã°£: " + temp.requiredTime);
-					for(int i=0; i<temp.path.size(); i++) {
-						if(i==0)
-							System.out.print(temp.path.elementAt(i));
-						else
-							System.out.print("->" + temp.path.elementAt(i));
-					}
-					System.out.println("");
-					System.out.println("------------------------");
+          startFloorNodeNum = readCSV(startFloor, true);
+          endFloorNodeNum = readCSV(1, false);
+          /*
+           * for(int i=0; i<6; i++) { for(int j=0; j<7; j++) {
+           * System.out.print(elevatorExist[i][j]); } System.out.println(""); }
+           */
+          System.out.println("<ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½>");
+          undirectMove = calculateShortestTime(startFloor, 1, startPlace, 6, startFloorNodeNum, endFloorNodeNum);
 
-					temp.path.remove(0);
-					undirectMove.move.add(temp.move.elementAt(0));
-					undirectMove.requiredTime+=temp.requiredTime;
-					for(int i=0; i<temp.path.size(); i++)
-						undirectMove.path.add(temp.path.elementAt(i));
+          for (int i = 0; i < undirectMove.move.size(); i++)
+            System.out.print(undirectMove.move.elementAt(i));
+          System.out.println(" ï¿½ï¿½ï¿½ ï¿½ï¿½Ãµ");
+          System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¿ï¿½ ï¿½Ã°ï¿½: " + undirectMove.requiredTime);
+          for (int i = 0; i < undirectMove.path.size(); i++) {
+            if (i == 0)
+              System.out.print(undirectMove.path.elementAt(i));
+            else
+              System.out.print("->" + undirectMove.path.elementAt(i));
+          }
+          System.out.println("");
+          System.out.println("------------------------");
 
-					System.out.println("<1Ãþ °æÀ¯ÇÏ´Â °æ¿ì>");
-					String sstartFloor, sendFloor;
-					for(int i=0; i<undirectMove.move.size(); i++) {
-						if(startFloor>=1)
-							sstartFloor=startFloor+"F";
-						else
-							sstartFloor="B"+Math.abs(startFloor)+"F";
-						if(endFloor>=1)
-							sendFloor=endFloor+"F";
-						else
-							sendFloor="B"+Math.abs(endFloor)+"F";
-						if(i==0)
-							System.out.print(undirectMove.move.elementAt(i)+"("+sstartFloor+"~1F) ");
-						else if(i==1)
-							System.out.print(undirectMove.move.elementAt(i)+"(1F~"+sendFloor+")");
-					}
-					System.out.println(" »ç¿ë ÃßÃµ");
-					System.out.println("¿¹»ó ¼Ò¿ä ½Ã°£: " + undirectMove.requiredTime);
-					for(int i=0; i<undirectMove.path.size(); i++) {
-						if(i==0)
-							System.out.print(undirectMove.path.elementAt(i));
-						else
-							System.out.print("->" + undirectMove.path.elementAt(i));
-					}
-					System.out.println("");
-					System.out.println("------------------------");
-				}
-			}
-			
-			if(directMove.requiredTime<=undirectMove.requiredTime)
-				finalRecommend=directMove;
-			else
-				finalRecommend=undirectMove;
+          startFloorNodeNum = readCSV(1, true);
+          endFloorNodeNum = readCSV(endFloor, false);
 
-			System.out.println("<ÃÖÁ¾ ÃßÃµ>");
-			for(int i=0; i<finalRecommend.move.size(); i++)
-				System.out.print(finalRecommend.move.elementAt(i));
-			System.out.println(" »ç¿ë ÃßÃµ");
-			System.out.println("¿¹»ó ¼Ò¿ä ½Ã°£: " + finalRecommend.requiredTime);
-			for(int i=0; i<finalRecommend.path.size(); i++) {
-				if(i==0)
-					System.out.print(finalRecommend.path.elementAt(i));
-				else
-					System.out.print("->" + finalRecommend.path.elementAt(i));
-			}
-			System.out.println("");
+          System.out.println("<1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½>");
+          temp = calculateShortestTime(1, endFloor, 6, endPlace, startFloorNodeNum, endFloorNodeNum);
 
-			/*
-			 * »ç¿ë ÀÌµ¿¼ö´Ü: finalRecommend.move(°æÀ¯ ÇÏÁö ¾ÊÀ¸¸é ÇÑ°³, °æÀ¯ ÇÏ¸é µÎ°³)(StringÇü Vector)
-			 * ÃÑ ¼Ò¿ä½Ã°£: finalRecommend.requiredTime(intÇü)
-			 * ÀÌµ¿ °æ·Î: finalRecommend.path(StringÇü Vector) 
-			 */
-		}
-	}
+          for (int i = 0; i < temp.move.size(); i++)
+            System.out.print(temp.move.elementAt(i));
+          System.out.println(" ï¿½ï¿½ï¿½ ï¿½ï¿½Ãµ");
+          System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¿ï¿½ ï¿½Ã°ï¿½: " + temp.requiredTime);
+          for (int i = 0; i < temp.path.size(); i++) {
+            if (i == 0)
+              System.out.print(temp.path.elementAt(i));
+            else
+              System.out.print("->" + temp.path.elementAt(i));
+          }
+          System.out.println("");
+          System.out.println("------------------------");
 
-	public static RecommendObject calculateShortestTime(int startFloor, int endFloor, int startPlace, int endPlace, int startFloorNodeNum, int endFloorNodeNum) {
-		int[] startFloorTime=new int[MAX];
-		int[] endFloorTime=new int[MAX];
-		boolean[] startFloorVisited=new boolean[MAX];
-		boolean[] endFloorVisited=new boolean[MAX];
-		int[] startFloorPred=new int[MAX];
-		int[] endFloorPred=new int[MAX];
-		Vector<String> path=new Vector<String>();
-		Vector<String> temp=new Vector<String>();
+          temp.path.remove(0);
+          undirectMove.move.add(temp.move.elementAt(0));
+          undirectMove.requiredTime += temp.requiredTime;
+          for (int i = 0; i < temp.path.size(); i++)
+            undirectMove.path.add(temp.path.elementAt(i));
 
-		for(int i=0; i<startFloorNodeNum; i++) {
-			startFloorVisited[i]=false;
-			startFloorPred[i]=-1;
-			for(int j=0; j<startFloorNodeNum; j++) {
-				if(startFloorLen[i][j]==0)
-					startFloorLen[i][j]=INF;
-			}
-		}
+          System.out.println("<1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½>");
+          String sstartFloor, sendFloor;
+          for (int i = 0; i < undirectMove.move.size(); i++) {
+            if (startFloor >= 1)
+              sstartFloor = startFloor + "F";
+            else
+              sstartFloor = "B" + Math.abs(startFloor) + "F";
+            if (endFloor >= 1)
+              sendFloor = endFloor + "F";
+            else
+              sendFloor = "B" + Math.abs(endFloor) + "F";
+            if (i == 0)
+              System.out.print(undirectMove.move.elementAt(i) + "(" + sstartFloor + "~1F) ");
+            else if (i == 1)
+              System.out.print(undirectMove.move.elementAt(i) + "(1F~" + sendFloor + ")");
+          }
+          System.out.println(" ï¿½ï¿½ï¿½ ï¿½ï¿½Ãµ");
+          System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¿ï¿½ ï¿½Ã°ï¿½: " + undirectMove.requiredTime);
+          for (int i = 0; i < undirectMove.path.size(); i++) {
+            if (i == 0)
+              System.out.print(undirectMove.path.elementAt(i));
+            else
+              System.out.print("->" + undirectMove.path.elementAt(i));
+          }
+          System.out.println("");
+          System.out.println("------------------------");
+        }
+      }
 
-		for(int i=0; i<endFloorNodeNum; i++) {
-			endFloorVisited[i]=false;
-			endFloorPred[i]=-1;
-			for(int j=0; j<endFloorNodeNum; j++) {
-				if(endFloorLen[i][j]==0)
-					endFloorLen[i][j]=INF;
-			}
-		}
+      if (directMove.requiredTime <= undirectMove.requiredTime)
+        finalRecommend = directMove;
+      else
+        finalRecommend = undirectMove;
 
-		int min, minPos;
-		startFloorTime=startFloorLen[startPlace];
-		startFloorVisited[startPlace]=true;
-		startFloorTime[startPlace]=0;
-		for(int i=0; i<startFloorNodeNum; i++) {
-			if(startFloorTime[i]!=INF)
-				startFloorPred[i]=startPlace;
-		}
+      System.out.println("<ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ãµ>");
+      for (int i = 0; i < finalRecommend.move.size(); i++)
+        System.out.print(finalRecommend.move.elementAt(i));
+      System.out.println(" ï¿½ï¿½ï¿½ ï¿½ï¿½Ãµ");
+      System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¿ï¿½ ï¿½Ã°ï¿½: " + finalRecommend.requiredTime);
+      for (int i = 0; i < finalRecommend.path.size(); i++) {
+        if (i == 0)
+          System.out.print(finalRecommend.path.elementAt(i));
+        else
+          System.out.print("->" + finalRecommend.path.elementAt(i));
+      }
+      System.out.println("");
 
-		endFloorTime=endFloorLen[endPlace];
-		endFloorVisited[endPlace]=true;
-		endFloorTime[endPlace]=0;
-		for(int i=0; i<endFloorNodeNum; i++) {
-			if(endFloorTime[i]!=INF)
-				endFloorPred[i]=endPlace;
-		}
+      /*
+       * ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½: finalRecommend.move(ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ°ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¸ï¿½ ï¿½Î°ï¿½)(Stringï¿½ï¿½
+       * Vector) ï¿½ï¿½ ï¿½Ò¿ï¿½Ã°ï¿½: finalRecommend.requiredTime(intï¿½ï¿½) ï¿½Ìµï¿½ ï¿½ï¿½ï¿½:
+       * finalRecommend.path(Stringï¿½ï¿½ Vector)
+       */
+    }
+  }
 
-		for(int counter=0; counter<startFloorNodeNum-1; counter++) {
-			min=INF;
-			minPos=-1;
-			for(int i=0; i<startFloorNodeNum; i++) {
-				if(min>startFloorTime[i]&&!startFloorVisited[i]) {
-					min=startFloorTime[i];
-					minPos=i;
-				}
-			}
+  public static RecommendObject calculateShortestTime(int startFloor, int endFloor, int startPlace, int endPlace,
+      int startFloorNodeNum, int endFloorNodeNum) {
+    int[] startFloorTime = new int[MAX];
+    int[] endFloorTime = new int[MAX];
+    boolean[] startFloorVisited = new boolean[MAX];
+    boolean[] endFloorVisited = new boolean[MAX];
+    int[] startFloorPred = new int[MAX];
+    int[] endFloorPred = new int[MAX];
+    Vector<String> path = new Vector<String>();
+    Vector<String> temp = new Vector<String>();
 
-			startFloorVisited[minPos]=true;
+    for (int i = 0; i < startFloorNodeNum; i++) {
+      startFloorVisited[i] = false;
+      startFloorPred[i] = -1;
+      for (int j = 0; j < startFloorNodeNum; j++) {
+        if (startFloorLen[i][j] == 0)
+          startFloorLen[i][j] = INF;
+      }
+    }
 
-			for(int i=0; i<startFloorNodeNum; i++) {
-				if(!startFloorVisited[i]) {
-					if(min+startFloorLen[minPos][i]<startFloorTime[i]) {
-						startFloorTime[i]=min+startFloorLen[minPos][i];
-						startFloorPred[i]=minPos;
-					}
-				}
-			}
-		}
+    for (int i = 0; i < endFloorNodeNum; i++) {
+      endFloorVisited[i] = false;
+      endFloorPred[i] = -1;
+      for (int j = 0; j < endFloorNodeNum; j++) {
+        if (endFloorLen[i][j] == 0)
+          endFloorLen[i][j] = INF;
+      }
+    }
 
-		for(int counter=0; counter<endFloorNodeNum-1; counter++) {
-			min=INF;
-			minPos=-1;
-			for(int i=0; i<endFloorNodeNum; i++) {
-				if(min>endFloorTime[i]&&!endFloorVisited[i]) {
-					min=endFloorTime[i];
-					minPos=i;
-				}
-			}
+    int min, minPos;
+    startFloorTime = startFloorLen[startPlace];
+    startFloorVisited[startPlace] = true;
+    startFloorTime[startPlace] = 0;
+    for (int i = 0; i < startFloorNodeNum; i++) {
+      if (startFloorTime[i] != INF)
+        startFloorPred[i] = startPlace;
+    }
 
-			endFloorVisited[minPos]=true;
+    endFloorTime = endFloorLen[endPlace];
+    endFloorVisited[endPlace] = true;
+    endFloorTime[endPlace] = 0;
+    for (int i = 0; i < endFloorNodeNum; i++) {
+      if (endFloorTime[i] != INF)
+        endFloorPred[i] = endPlace;
+    }
 
-			for(int i=0; i<endFloorNodeNum; i++) {
-				if(!endFloorVisited[i]) {
-					if(min+endFloorLen[minPos][i]<endFloorTime[i]) {
-						endFloorTime[i]=min+endFloorLen[minPos][i];
-						endFloorPred[i]=minPos;
-					}
-				}
-			}
-		}
+    for (int counter = 0; counter < startFloorNodeNum - 1; counter++) {
+      min = INF;
+      minPos = -1;
+      for (int i = 0; i < startFloorNodeNum; i++) {
+        if (min > startFloorTime[i] && !startFloorVisited[i]) {
+          min = startFloorTime[i];
+          minPos = i;
+        }
+      }
 
-		int j;
-		int[] totalTime=new int[ELENUM+STAIRNUM];
-		for(int i=0; i<ELENUM+STAIRNUM; i++)
-			totalTime[i]=INF;
-		
-		int tempstartFloor, tempendFloor;
-		if(startFloor<1)
-			tempstartFloor=startFloor+6;
-		else
-			tempstartFloor=startFloor+5;
-		if(endFloor<1)
-			tempendFloor=endFloor+6;
-		else
-			tempendFloor=endFloor+5;
+      startFloorVisited[minPos] = true;
 
-		for(int i=0; i<ELENUM+STAIRNUM; i++) {
-			if(elevatorExist[tempstartFloor][i]!=-1 && elevatorExist[tempendFloor][i]!=-1) {
-				//System.out.println(startFloorNodeName[elevatorExist[tempstartFloor][i]] + " »ç¿ë: ");
+      for (int i = 0; i < startFloorNodeNum; i++) {
+        if (!startFloorVisited[i]) {
+          if (min + startFloorLen[minPos][i] < startFloorTime[i]) {
+            startFloorTime[i] = min + startFloorLen[minPos][i];
+            startFloorPred[i] = minPos;
+          }
+        }
+      }
+    }
 
-				//System.out.println("Ãâ¹ßÁö~"+ startFloorNodeName[elevatorExist[tempstartFloor][i]] + ": "+ startFloorTime[elevatorExist[tempstartFloor][i]]);
-				//System.out.print(startFloorNodeName[elevatorExist[tempstartFloor][i]]);
-				j=elevatorExist[tempstartFloor][i];
-				do {
-					j=startFloorPred[j];
-					//System.out.print("<-"+startFloorNodeName[j]);
-				}while(j!=startPlace);
-				//System.out.println("");
+    for (int counter = 0; counter < endFloorNodeNum - 1; counter++) {
+      min = INF;
+      minPos = -1;
+      for (int i = 0; i < endFloorNodeNum; i++) {
+        if (min > endFloorTime[i] && !endFloorVisited[i]) {
+          min = endFloorTime[i];
+          minPos = i;
+        }
+      }
 
-				//System.out.println(startFloorNodeName[elevatorExist[tempstartFloor][i]] + " ´ë±â+ÀÌµ¿ ½Ã°£: "+floorMoveTime(i, startFloor, endFloor));
+      endFloorVisited[minPos] = true;
 
-				//System.out.println(endFloorNodeName[elevatorExist[tempendFloor][i]] + "~µµÂøÁö: "+ endFloorTime[elevatorExist[tempendFloor][i]]);
-				//System.out.print(endFloorNodeName[elevatorExist[tempendFloor][i]]);
-				j=elevatorExist[tempendFloor][i];
-				do {
-					j=endFloorPred[j];
-					//System.out.print("->"+endFloorNodeName[j]);
-				}while(j!=endPlace);
-				//System.out.println("");
+      for (int i = 0; i < endFloorNodeNum; i++) {
+        if (!endFloorVisited[i]) {
+          if (min + endFloorLen[minPos][i] < endFloorTime[i]) {
+            endFloorTime[i] = min + endFloorLen[minPos][i];
+            endFloorPred[i] = minPos;
+          }
+        }
+      }
+    }
 
-				totalTime[i]=startFloorTime[elevatorExist[tempstartFloor][i]]+floorMoveTime(i, startFloor, endFloor)+endFloorTime[elevatorExist[tempendFloor][i]];
-				System.out.println(startFloorNodeName[elevatorExist[tempstartFloor][i]] + " »ç¿ë½Ã ¼Ò¿ä ½Ã°£: "+ totalTime[i]);
-				//System.out.println("");
-			}
-		}
+    int j;
+    int[] totalTime = new int[ELENUM + STAIRNUM];
+    for (int i = 0; i < ELENUM + STAIRNUM; i++)
+      totalTime[i] = INF;
 
-		int minTime=INF, minElevator=-1;
-		for(int i=0; i<ELENUM+STAIRNUM; i++) {
-			if(minTime>totalTime[i]) {
-				minTime=totalTime[i];
-				minElevator=i;
-			}
-		}
+    int tempstartFloor, tempendFloor;
+    if (startFloor < 1)
+      tempstartFloor = startFloor + 6;
+    else
+      tempstartFloor = startFloor + 5;
+    if (endFloor < 1)
+      tempendFloor = endFloor + 6;
+    else
+      tempendFloor = endFloor + 5;
 
-		try {
-			temp.add(startFloorNodeName[elevatorExist[tempstartFloor][minElevator]]);
-		}catch(ArrayIndexOutOfBoundsException e) {
-			System.out.println("tempstartFloor" + tempstartFloor);
-			System.out.println("minElevator" + minElevator);
-			System.out.println("elevatorExist" + elevatorExist[tempstartFloor][minElevator]);
-		}
+    for (int i = 0; i < ELENUM + STAIRNUM; i++) {
+      if (elevatorExist[tempstartFloor][i] != -1 && elevatorExist[tempendFloor][i] != -1) {
+        // System.out.println(startFloorNodeName[elevatorExist[tempstartFloor][i]] + "
+        // ï¿½ï¿½ï¿½: ");
 
-		j=elevatorExist[tempstartFloor][minElevator];
-		do {
-			j=startFloorPred[j];
-			temp.add(startFloorNodeName[j]);
-		}while(j!=startPlace);
-		for(int i=temp.size()-1; i>=0; i--)
-			path.add(temp.elementAt(i));
+        // System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½~"+
+        // startFloorNodeName[elevatorExist[tempstartFloor][i]] + ": "+
+        // startFloorTime[elevatorExist[tempstartFloor][i]]);
+        // System.out.print(startFloorNodeName[elevatorExist[tempstartFloor][i]]);
+        j = elevatorExist[tempstartFloor][i];
+        do {
+          j = startFloorPred[j];
+          // System.out.print("<-"+startFloorNodeName[j]);
+        } while (j != startPlace);
+        // System.out.println("");
 
-		j=elevatorExist[tempendFloor][minElevator];
-		do {
-			j=endFloorPred[j];
-			path.add(endFloorNodeName[j]);
-		}while(j!=endPlace);
+        // System.out.println(startFloorNodeName[elevatorExist[tempstartFloor][i]] + "
+        // ï¿½ï¿½ï¿½+ï¿½Ìµï¿½ ï¿½Ã°ï¿½: "+floorMoveTime(i, startFloor, endFloor));
 
-		if(path.elementAt(0).equals(path.elementAt(1)))
-			path.remove(0);
-		if(path.elementAt(path.size()-2).equals(path.elementAt(path.size()-1)))
-			path.remove(path.size()-1);
+        // System.out.println(endFloorNodeName[elevatorExist[tempendFloor][i]] +
+        // "~ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: "+ endFloorTime[elevatorExist[tempendFloor][i]]);
+        // System.out.print(endFloorNodeName[elevatorExist[tempendFloor][i]]);
+        j = elevatorExist[tempendFloor][i];
+        do {
+          j = endFloorPred[j];
+          // System.out.print("->"+endFloorNodeName[j]);
+        } while (j != endPlace);
+        // System.out.println("");
 
-		RecommendObject recommendobject=new RecommendObject();
-		recommendobject.move.add(startFloorNodeName[elevatorExist[tempstartFloor][minElevator]]);
-		recommendobject.requiredTime=minTime;
-		recommendobject.path=path;
-		return recommendobject;
-	}
+        totalTime[i] = startFloorTime[elevatorExist[tempstartFloor][i]] + floorMoveTime(i, startFloor, endFloor)
+            + endFloorTime[elevatorExist[tempendFloor][i]];
+        System.out.println(startFloorNodeName[elevatorExist[tempstartFloor][i]] + " ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¿ï¿½ ï¿½Ã°ï¿½: " + totalTime[i]);
+        // System.out.println("");
+      }
+    }
 
+    int minTime = INF, minElevator = -1;
+    for (int i = 0; i < ELENUM + STAIRNUM; i++) {
+      if (minTime > totalTime[i]) {
+        minTime = totalTime[i];
+        minElevator = i;
+      }
+    }
 
-	public static int floorMoveTime(int eleNum, int startFloor, int endFloor) {
-		if(eleNum<=2)		//¿¤¸®º£ÀÌÅÍ ÀÌ¿ë ´ë±â+ÀÌµ¿½Ã°£
-			return EvInfo.GetMoveTime(eleNum, startFloor, endFloor).avg;
-		else{				//°è´Ü ÀÌ¿ë ´ë±â+ÀÌµ¿½Ã°£
-			if(startFloor*endFloor<0)
-				return (Math.abs(startFloor-endFloor)-1)*ONEFLOORSTAIRMOVETIME;
-			else
-				return Math.abs(startFloor-endFloor)*ONEFLOORSTAIRMOVETIME;
-		}
-	}
+    try {
+      temp.add(startFloorNodeName[elevatorExist[tempstartFloor][minElevator]]);
+    } catch (ArrayIndexOutOfBoundsException e) {
+      System.out.println("tempstartFloor" + tempstartFloor);
+      System.out.println("minElevator" + minElevator);
+      System.out.println("elevatorExist" + elevatorExist[tempstartFloor][minElevator]);
+    }
 
-	public static int readCSV(int floor, boolean isStartFloor) {
-		String csvFile;
-		if(floor>=1)
-			csvFile = "C:\\Users\\Owner\\Desktop\\ÀÚ·á±¸Á¶¼³°è\\"+floor+"F.csv";
-		//csvFile = ".\"+floor+"F.csv";					(»ó´ë°æ·Î)
-		else {
-			floor=-floor;
-			csvFile = "C:\\Users\\Owner\\Desktop\\ÀÚ·á±¸Á¶¼³°è\\B"+floor+"F.csv";
-			//csvFile = ".\"+"B"+floor+"F.csv";			(»ó´ë°æ·Î)
-		}
+    j = elevatorExist[tempstartFloor][minElevator];
+    do {
+      j = startFloorPred[j];
+      temp.add(startFloorNodeName[j]);
+    } while (j != startPlace);
+    for (int i = temp.size() - 1; i >= 0; i--)
+      path.add(temp.elementAt(i));
 
-		BufferedReader br = null;
-		String line = "";
-		String csvSplitBy = ",";
-		int row = 0;
-		int num = 0;
+    j = elevatorExist[tempendFloor][minElevator];
+    do {
+      j = endFloorPred[j];
+      path.add(endFloorNodeName[j]);
+    } while (j != endPlace);
 
-		try {
-			br = new BufferedReader(new FileReader(csvFile));
-			line=br.readLine();
-			String[] nodeContent=line.split(csvSplitBy);
-			num=nodeContent.length;
-			if(isStartFloor) {
-				for(int col=0; col<num-1; col++)
-					startFloorNodeName[col]=nodeContent[col+1];
-			}
-			else {
-				for(int col=0; col<num-1; col++)
-					endFloorNodeName[col]=nodeContent[col+1];
-			}
+    if (path.elementAt(0).equals(path.elementAt(1)))
+      path.remove(0);
+    if (path.elementAt(path.size() - 2).equals(path.elementAt(path.size() - 1)))
+      path.remove(path.size() - 1);
 
-			while ((line = br.readLine()) != null) {
-				String[] lenContent = line.split(csvSplitBy);
-				if(isStartFloor) {
-					for(int col=0; col<num-1; col++)
-						startFloorLen[row][col]=Integer.parseInt(lenContent[col+1]);
-				}
-				else {
-					for(int col=0; col<num-1; col++)
-						endFloorLen[row][col]=Integer.parseInt(lenContent[col+1]);
-				}
-				row++;
-			}
+    RecommendObject recommendobject = new RecommendObject();
+    recommendobject.move.add(startFloorNodeName[elevatorExist[tempstartFloor][minElevator]]);
+    recommendobject.requiredTime = minTime;
+    recommendobject.path = path;
+    return recommendobject;
+  }
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return num-1;
-	}
+  public static int floorMoveTime(int eleNum, int startFloor, int endFloor) {
+    if (eleNum <= 2) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ ï¿½ï¿½ï¿½+ï¿½Ìµï¿½ï¿½Ã°ï¿½
+      return EvInfo.GetMoveTime(eleNum, startFloor, endFloor).avg;
+    else { // ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ ï¿½ï¿½ï¿½+ï¿½Ìµï¿½ï¿½Ã°ï¿½
+      if (startFloor * endFloor < 0)
+        return (Math.abs(startFloor - endFloor) - 1) * ONEFLOORSTAIRMOVETIME;
+      else
+        return Math.abs(startFloor - endFloor) * ONEFLOORSTAIRMOVETIME;
+    }
+  }
+
+  public static int readCSV(int floor, boolean isStartFloor) {
+    String csvFile;
+    if (floor >= 1)
+      csvFile = "C:\\Users\\Owner\\Desktop\\ï¿½Ú·á±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\\" + floor + "F.csv";
+    // csvFile = ".\"+floor+"F.csv"; (ï¿½ï¿½ï¿½ï¿½ï¿½)
+    else {
+      floor = -floor;
+      csvFile = "C:\\Users\\Owner\\Desktop\\ï¿½Ú·á±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\\B" + floor + "F.csv";
+      // csvFile = ".\"+"B"+floor+"F.csv"; (ï¿½ï¿½ï¿½ï¿½ï¿½)
+    }
+
+    BufferedReader br = null;
+    String line = "";
+    String csvSplitBy = ",";
+    int row = 0;
+    int num = 0;
+
+    try {
+      br = new BufferedReader(new FileReader(csvFile));
+      line = br.readLine();
+      String[] nodeContent = line.split(csvSplitBy);
+      num = nodeContent.length;
+      if (isStartFloor) {
+        for (int col = 0; col < num - 1; col++)
+          startFloorNodeName[col] = nodeContent[col + 1];
+      } else {
+        for (int col = 0; col < num - 1; col++)
+          endFloorNodeName[col] = nodeContent[col + 1];
+      }
+
+      while ((line = br.readLine()) != null) {
+        String[] lenContent = line.split(csvSplitBy);
+        if (isStartFloor) {
+          for (int col = 0; col < num - 1; col++)
+            startFloorLen[row][col] = Integer.parseInt(lenContent[col + 1]);
+        } else {
+          for (int col = 0; col < num - 1; col++)
+            endFloorLen[row][col] = Integer.parseInt(lenContent[col + 1]);
+        }
+        row++;
+      }
+
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      if (br != null) {
+        try {
+          br.close();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return num - 1;
+  }
 }
