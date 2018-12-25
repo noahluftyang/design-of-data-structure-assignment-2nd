@@ -29,14 +29,13 @@ public class MainClass {
       { 0, 1, 2, 3, 4, 5, -1 }, { 0, 1, 2, 3, 4, 5, -1 }, { 0, 1, 2, 3, 4, 5, -1 }, { 0, 1, 2, 3, 4, 5, -1 },
       { 0, 1, 2, 3, 4, 5, -1 } };
 
-  public static void main(String[] args) {
-    int startFloorNodeNum, endFloorNodeNum; // ������� ��� ����, �������� ��� ����
-    RecommendObject directMove = new RecommendObject(); // ���� ���� �̵��ð�, ��� ����
-    RecommendObject undirectMove = new RecommendObject(); // 1�� ���� �̵��ð�, ��� ����
-    RecommendObject finalRecommend = new RecommendObject(); // ���� ���� �̵��� ���� �ִ� �̵� �� �̵��ð��� ���� ���� ����
-                                                            // ��õ
+  public static ResponseData getData(int startFloor, int endFloor, int startPlace, int endPlace) {
+    int startFloorNodeNum, endFloorNodeNum;
+    RecommendObject directMove = new RecommendObject();
+    RecommendObject undirectMove = new RecommendObject();
+    RecommendObject finalRecommend = new RecommendObject();
     RecommendObject temp = new RecommendObject();
-    Scanner scan = new Scanner(System.in);
+    // Scanner scan = new Scanner(System.in);
     int[][] tempelevatorExist = new int[6][7];
 
     EvInfo.Init();
@@ -54,16 +53,16 @@ public class MainClass {
         }
       }
 
-      System.out.print("�����: ");
-      int startFloor = scan.nextInt();
+      // System.out.print("�����: ");
+      // int startFloor = scan.nextInt();
       startFloorNodeNum = readCSV(startFloor, true);
-      System.out.print("����� ����ȣ: ");
-      int startPlace = scan.nextInt();
-      System.out.print("������: ");
-      int endFloor = scan.nextInt();
+      // System.out.print("����� ����ȣ: ");
+      // int startPlace = scan.nextInt();
+      // System.out.print("������: ");
+      // int endFloor = scan.nextInt();
       endFloorNodeNum = readCSV(endFloor, false);
-      System.out.print("������ ��� ��ȣ: ");
-      int endPlace = scan.nextInt();
+      // System.out.print("������ ��� ��ȣ: ");
+      // int endPlace = scan.nextInt();
 
       // CSV���� �Է� �� ��Ÿ �ִ��� üũ
       for (int i = 0; i < startFloorNodeNum; i++) {
@@ -193,9 +192,9 @@ public class MainClass {
       System.out.println("");
 
       /*
-       * ��� �̵�����: finalRecommend.move(���� ���� ������ �Ѱ�, ���� �ϸ� �ΰ�)(String��
-       * Vector) �� �ҿ�ð�: finalRecommend.requiredTime(int��) �̵� ���:
-       * finalRecommend.path(String�� Vector)
+       * ��� �̵�����: finalRecommend.move(���� ���� ������ �Ѱ�, ���� �ϸ� �ΰ�)(Strin
+       *  �� Vector) �� �ҿ�ð�: finalRecommend.requiredTime(int��) �̵�
+       *  ���: finalRecommend.path(String�� Vector)
        */
     }
   }
@@ -450,5 +449,8 @@ public class MainClass {
       }
     }
     return num - 1;
+  }
+
+  public MainClass() {
   }
 }
