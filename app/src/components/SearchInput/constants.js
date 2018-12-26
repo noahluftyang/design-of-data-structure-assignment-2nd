@@ -1,17 +1,4 @@
-export const BELOW_BSIXTH_FLOOR = [];
-export const BELOW_BFIFTH_FLOOR = [];
-export const BELOW_BFORTH_FLOOR = [];
-export const BELOW_BTHIRD_FLOOR = [];
-export const BELOW_BSECOND_FLOOR = [];
-export const BELOW_BFIRST_FLOOR = [];
-export const BELOW_SIXTH_FLOOR = [];
-export const BELOW_FIFTH_FLOOR = [];
-export const BELOW_FORTH_FLOOR = [];
-export const BELOW_THIRD_FLOOR = [];
-export const BELOW_SECOND_FLOOR = [];
-export const BELOW_FIRST_FLOOR = [];
-
-export const BELOW_BFIFTH_FLOOR = [
+export const BFIFTH_FLOOR = [
   {
     floor: -5,
     label: 'B506 전기실',
@@ -33,7 +20,7 @@ export const BELOW_BFIFTH_FLOOR = [
     value: 4,
   },
 ];
-export const BELOW_BFORTH_FLOOR = [
+export const BFORTH_FLOOR = [
   {
     floor: -4,
     label: '세븐일레븐 편의점',
@@ -91,7 +78,7 @@ export const BELOW_BFORTH_FLOOR = [
     value: 12,
   },
 ];
-export const BELOW_BTHIRD_FLOOR = [
+export const BTHIRD_FLOOR = [
   {
     floor: -3,
     label: 'AElevator',
@@ -113,7 +100,7 @@ export const BELOW_BTHIRD_FLOOR = [
     value: 3,
   },
 ];
-export const BELOW_BSECOND_FLOOR = [
+export const BSECOND_FLOOR = [
   {
     floor: -2,
     label: 'AElevator',
@@ -135,7 +122,7 @@ export const BELOW_BSECOND_FLOOR = [
     value: 3,
   },
 ];
-export const BELOW_BFIRST_FLOOR = [
+export const BFIRST_FLOOR = [
   {
     floor: -1,
     label: 'AElevator',

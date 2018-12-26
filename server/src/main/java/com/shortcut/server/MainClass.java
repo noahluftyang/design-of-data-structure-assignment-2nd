@@ -90,7 +90,9 @@ public class MainClass {
       System.out.println("------------------------");
 
       if (startFloor * endFloor < 0 && startFloor != 1 && endFloor != 1) {
-        if (Math.min(startFloor, endFloor) != -5 && Math.min(startFloor, endFloor) != -6) {
+        // if (Math.min(startFloor, endFloor) != -5 && Math.min(startFloor, endFloor) !=
+        // -6) {
+        if (Math.min(startFloor, endFloor) >= 1) {
           for (int i = 2; i < 6; i++) {
             elevatorExist[i][0] = -1;
             elevatorExist[i][1] = -1;
@@ -192,9 +194,10 @@ public class MainClass {
       System.out.println("");
 
       /*
-       * ��� �̵�����: finalRecommend.move(���� ���� ������ �Ѱ�, ���� �ϸ� �ΰ�)(Strin
-       *  �� Vector) �� �ҿ�ð�: finalRecommend.requiredTime(int��) �̵�
-       *  ���: finalRecommend.path(String�� Vector)
+       * ��� �̵�����: finalRecommend.move(���� ���� ������ �Ѱ�, ���� �ϸ� �ΰ�)(Strin ��
+       * 
+       * Vector) �� �ҿ�ð�: finalRecommend.requiredTime(int��) �̵� ���:
+       *  finalRecommend.path(String�� Vector)
        */
 
       return new ResponseData(finalRecommend.move, finalRecommend.requiredTime, finalRecommend.path);
@@ -335,9 +338,14 @@ public class MainClass {
         } while (j != endPlace);
         // System.out.println("");
 
-        totalTime[i] = startFloorTime[elevatorExist[tempstartFloor][i]] + floorMoveTime(i, startFloor, endFloor)
-            + endFloorTime[elevatorExist[tempendFloor][i]];
-        System.out.println(startFloorNodeName[elevatorExist[tempstartFloor][i]] + " ���� �ҿ� �ð�: " + totalTime[i]);
+        // totalTime[i] = startFloorTime[elevatorExist[tempstartFloor][i]] +
+        // floorMoveTime(i, startFloor, endFloor)
+        // + endFloorTime[elevatorExist[tempendFloor][i]];
+        totalTime[i] = startFloorTime[elevatorExist[tempstartFloor][i]] + endFloorTime[elevatorExist[tempendFloor][i]];
+        // totalTime[i]=totalTime[i]+floorMoveTime(i, startFloor, endFloor);
+        totalTime[i] += totalTime[i] + 30;
+        System.out.println(
+            startFloorNodeName[elevatorExist[tempstartFloor][i]] + " ���� �ҿ� �ð�: " + totalTime[i]);
         // System.out.println("");
       }
     }
